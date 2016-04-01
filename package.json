@@ -1,0 +1,7 @@
+{
+  "testSuites": {
+    "unit": {
+      "cwd": "."
+    }
+  }
+}

@@ -1,0 +1,8 @@
+include ./menuItemTitle.jade
+
+.anchor
+  - var classNames = ['glyphicon', 'glyphicon-offset-left5']
+  - checked ? classNames.push("glyphicon-ok") : null
+  
+  span(class=classNames)
+  +generateTitle(text, linkText)

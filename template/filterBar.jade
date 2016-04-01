@@ -1,0 +1,14 @@
+.panel-component
+  .panel-body.filter-bar
+    .filter-bar-item.filter_title_collapsed=title
+    .filter-bar-item.filter_row_readonly
+      span.column=columnName
+      span.filter_operator=filterOperator
+      span.filterValue=filterValue
+    .filter-bar-item.filter_links
+      a.editFilterLink
+        .spritedimage.filtericonsalign.edit_icon(title=editText)
+      a.editFilterLink=editText 
+      a.removeFilterLink
+        .spritedimage.filtericonsalign.remove_icon_gray_16(title=removeText)
+      a.removeFilterLink=removeText

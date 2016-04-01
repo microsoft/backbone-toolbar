@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link href="../../../.out/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="http://localhost:8004/StaticResourcesWeb/Application/Styles/theme_next.css" rel="stylesheet" media="screen">
+    <link href="http://localhost:8004/StaticResourcesWeb/Application/Styles/controls_next.css" rel="stylesheet" media="screen">
+    <link href="../style/grid-toolbar.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="../../../.out/lib/requirejs-2.1.14/require.js"></script>
+    <script type="text/javascript" src="../../require.config.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='row'>
+        <div class="panel panel-info">
+          <div class="panel-heading">Commands you can run in the console</div>
+          <div class="panel-body">
+            <pre>
+            </pre>
+          </div>
+        </div>
+        <div class="panel panel-info">
+          <div class="panel-heading">Notes</div>
+          <div class="panel-body">
+            <ul>
+              <li>Column 'ContactName' is sortable</li>
+              <li>Shift Columns right and left</li>
+              <li>Use Pager to navigate OData Source</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div id='pagination_host_a'></div>
+        <div id='grid_host_a'></div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      window.BINGADS_DEBUG = true;
+      require.config({
+        'baseUrl': '../../../'
+      });
+
+      require(['lib/squire', 'component/auto-config'], function(Squire){
+        var injector = new Squire();
+
+        injector
+          .mock({
+            'component/config/index': { get : function(){ return 'en-us'; } },
+            'data/i18n/component/grid-toolbar/en-us': {
+              'GridToolbar_FilterBar_Title': 'Filter',
+              'GridToolbar_FilterBar_Edit': 'Edit',
+              'GridToolbar_FilterBar_Remove': 'Remove'
+            }
+          })
+          .require([
+            'lib/underscore',
+            'lib/jquery',
+            'lib/backbone',
+            'component/i18n/index',
+            'component/grid-toolbar/button',
+            'component/grid-toolbar/dropdown',
+            'component/grid-toolbar/buttonMenuItem',
+            'component/grid-toolbar/dividerMenuItem',
+            'component/grid-toolbar/headerMenuItem',
+            'component/grid-toolbar/radioGroupMenuItem',
+            'component/grid-toolbar/radioMenuItem',
+            'component/grid-toolbar/subMenuItem',
+            'component/grid-toolbar/filterInput',
+            'component/grid-toolbar/gridToolbarItemContainer',
+            'component/grid-toolbar/gridToolbar',
+            'component/grid-toolbar/filterBar',
+          ],
+          function(_, $, Backbone, i18nModel, Button, Dropdown, ButtonMenuItem, DividerMenuItem, HeaderMenuItem,
+            RadioGroupMenuItem, RadioMenuItem, SubMenuItem, FilterInput, GridToolbarItemContainer,
+            GridToolbar, FilterBar) {
+             _.templateSettings = {
+              interpolate: /\{\{(.+?)\}\}/g
+            };
+
+            $(function(){
+              var columnMenu = new Dropdown({
+                title: "Columns",
+                menuItems: [
+                  new ButtonMenuItem({text: 'Modify Columns'}),
+                  new DividerMenuItem(),
+                  new HeaderMenuItem({text: 'Apply saved columns'}),
+                  new RadioGroupMenuItem({items: [
+                    new RadioMenuItem({text: 'Custom'})
+                  ]})
+                ]
+              });
+
+              var helloMenu = new Dropdown({
+                title: "Hello World",
+                menuItems: [
+                  new HeaderMenuItem({text: "Header"}),
+                  new ButtonMenuItem({text: "hello", linkText: 'Remove'}),
+                  new DividerMenuItem(),
+                  new ButtonMenuItem({text: "world"}),
+                  new RadioGroupMenuItem({items: [
+                    new RadioMenuItem({text: "radio1", linkText: "Remove"}),
+                    new RadioMenuItem({text: "radio2", linkText: "Remove"})
+                  ]}),
+                  new DividerMenuItem(),
+                  new RadioGroupMenuItem({items: [
+                    new RadioMenuItem({text: "radio11", linkText: "Change"}),
+                    new RadioMenuItem({text: "radio22", linkText: "Change"})
+                  ]})
+                ]
+              });
+
+              function getGroupItem(dropdown, index) {
+                var groupItems = dropdown.getMenuItems().filter(function(item) {
+                  return item.isGroup;
+                });
+                return groupItems[index];
+              }
+              getGroupItem(helloMenu, 0).on('click:link', function(button, item) {
+                button.removeItem(item);
+              });
+
+              getGroupItem(helloMenu, 1).on('click:link', function(button, item) {
+                item.setText('Changed!!!');
+              });
+
+              helloMenu.on('click:link', function(button, item) {
+                if (item.getGroup == null) {
+                  button.removeMenuItem(item);
+                }
+              });
+
+              var filterMenu = new Dropdown({
+                title: 'Filter',
+                menuItems: [
+                  new ButtonMenuItem({text: 'Create filter'}),
+                  new DividerMenuItem(),
+                  new HeaderMenuItem({text: 'Apply saved filters'}),
+                  new SubMenuItem({text: 'The Sub MenuItem', children: [
+                    new ButtonMenuItem({text: 'Good Study'}),
+                    new ButtonMenuItem({text: 'Hello World'}),
+                    new ButtonMenuItem({text: 'Nimei HAHAH'}),
+                  ]}),
+                  new SubMenuItem({text: 'New SubItem', children: [
+                    new ButtonMenuItem({text: 'Change current bids'}),
+                    new ButtonMenuItem({text: 'Pass ad group'}),
+                    new ButtonMenuItem({text: 'Enable ad groups'})
+                  ]})
+                ]
+              });
+
+              var filterInput = new FilterInput({placeholder: "Hello World"});
+              filterInput.on('change', function(button, filterVal) {
+                button.setValue('Apply!');
+              });
+
+              var filterContainer = new GridToolbarItemContainer({items: [filterMenu, filterInput]});
+
+              var buttonMenu = new Button({text: 'Click Me', leftIconClass: 'icon-export-normal'});
+              buttonMenu.on('click', function() {
+                alert('The button is clicked!');
+              });
+
+              var toolbar = new GridToolbar({items: [buttonMenu, helloMenu, columnMenu, filterContainer]});
+              var filterBar = new FilterBar({columnName: 'Account Name', filterOperator: 'Contains', filterValue: 'ss'});
+              filterBar.on('edit', function() {
+                alert('Click the edit button');
+              }),
+              filterBar.on('remove', function() {
+                alert('Click the remove button');
+              });
+
+              $('body').append(toolbar.render().$el);
+              $('body').append(filterBar.render().$el);
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

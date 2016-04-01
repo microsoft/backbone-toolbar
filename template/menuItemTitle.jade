@@ -1,0 +1,8 @@
+mixin generateTitle(text, linkText)
+  if linkText
+    span.primary
+      =text
+    a.secondary.text-right
+      =linkText
+  else 
+    =text
