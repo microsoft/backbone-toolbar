@@ -1,9 +1,10 @@
-import { Toolbar } from '../../js';
+import { ToolbarView } from '../../js';
 import 'bootstrap-webpack';
 
-const toolbar = new Toolbar({
+const toolbar = new ToolbarView({
   el: '.toolbar-container',
 }).set({
+  id: 'demo-toolbar',
   items: [{
     type: 'button',
     classes: ['btn', 'btn-primary'],

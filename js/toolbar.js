@@ -1,92 +1,28 @@
 import _ from 'underscore';
-import Backbone from 'backbone';
+import { parseSelector } from './util.js';
 import toolbarTemplate from './toolbar.jade';
-import { getItemBuilder } from './item-register.js';
-import './toolbar.less';
-
-function mergeEvents(dest, src) {
-  const result = dest || {};
-
-  _.each(src, (handler, key) => {
-    const handlerCur = result[key];
-    if (_.isFunction(handlerCur)) {
-      result[key] = function (...args) {
-        handlerCur.apply(this, args);
-        handler.apply(this, args);
-      };
-    } else {
-      result[key] = handler;
-    }
-  });
-
-  return result;
-}
 
 function normalizeItem(item) {
   if (_.isString(item)) {
-    const { classes, id } = parseSelector(item);
-    return {
-      type: 'stub',
-      classes,
-      id,
-    };
-  } else if (!_.has(item, 'type')) {
-    const error = new Error('Invalid toolbar item');
-    error.item = item;
-    throw error;
+    return _.extend({ type: 'stub' }, parseSelector(item));
   }
-
   return item;
 }
 
-export class Toolbar extends Backbone.View {
-  initialize() {
-    this._props = {};
-    this._state = {
-      items: [],
-      events: {},
-    };
-  }
+export function renderToolbar(toolbar, renderItem) {
+  const events = {};
+  const items = _.map(toolbar.items, (item, index) => ({
+    html: renderItem(_.defaults({
+      tabindex: index === 0 ? 0 : -1,
+    }, normalizeItem(item)), events),
+  }));
 
-  set(state) {
-    this._state = state;
-    this._redraw();
-    return this;
-  }
+  const options = _.defaults({ items }, toolbar, {
+    classes: [],
+    id: _.uniqueId('toolbar-'),
+  });
+  const html = toolbarTemplate(options);
 
-  get(attr) {
-    return this._state.get(attr);
-  }
-
-  _buildItems() {
-    return _.reduce(this._state.items, (memo, item, index) => {
-      const toolbarItemBuilder = getItemBuilder(normalizeItem(item).type);
-      const { events, html } = toolbarItemBuilder(_.defaults({
-        tabindex: index === 0 ? 0 : -1,
-      }, item));
-
-      memo.items.push({ html });
-      memo.events = mergeEvents(memo.events, events);
-      return memo;
-    }, {
-      items: [],
-      events: this._state.events,
-    });
-  }
-
-  _redraw() {
-    if (this._isRendered) {
-      const { items, events } = this._buildItems();
-      this.undelegateEvents();
-      this.$el.html(toolbarTemplate({ items }));
-      this.delegateEvents(events);
-    }
-  }
-
-  render() {
-    this._isRendered = true;
-    this._redraw();
-    return this;
-  }
+  return { html, events };
 }
 

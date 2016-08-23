@@ -1,8 +1,10 @@
 import { register } from './item-register.js';
-import { buildButtonItem } from './button.js';
+import { renderButton } from './button.js';
+import { renderToolbar } from './toolbar.js';
 
-register('button', buildButtonItem);
+register('button', renderButton);
+register('toolbar', renderToolbar);
 
 export { register } from './item-register.js';
-export { Toolbar } from './toolbar.js';
+export { ToolbarView } from './toolbar-view.js';
 
