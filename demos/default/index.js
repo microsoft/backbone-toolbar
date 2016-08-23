@@ -1,5 +1,14 @@
-var backboneToolbar = require('../../js/index');
+import { Toolbar } from '../../js';
+import 'bootstrap-webpack';
 
-document.open();
-document.write('<h1>' + backboneToolbar + '</h1>');
-document.close();
+const toolbar = new Toolbar({
+  el: '.toolbar-container',
+}).set({
+  items: [{
+    type: 'button',
+    classes: ['btn', 'btn-primary'],
+    title: 'A button',
+    name: 'first-button',
+    onClick: () => console.log('click first-button'),
+  }],
+}).render();

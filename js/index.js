@@ -1,3 +1,1 @@
-define([], function () {
-  return '"backbone-toolbar" is an awesome library.';
-});
+export { Toolbar } from './toolbar.js';
