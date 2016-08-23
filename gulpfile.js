@@ -14,6 +14,7 @@ var del = require('del');
 // coveralls
 var coveralls = require('gulp-coveralls');
 // coveralls-end
+var jsdoc = require('gulp-jsdoc3');
 
 function webpackBuild(configFilePath) {
   return function (cb) {
@@ -50,37 +51,13 @@ gulp.task('download-selenium', function (cb) {
 
 function startSeleniumServer() {
   var filePath = getSeleniumFilePath();
-  return childProcess.spawn('java', ['-jar', filePath], { stdio: 'inherit' });
+  return childProcess.spawn('java', ['-jar', filePath], {
+    stdio: 'inherit',
+    env: { path: path.join(__dirname, 'node_modules', '.bin') },
+  });
 }
 
-//
-// Don't use Karma API for now
-// For karma version 0.13.19 - 0.13.22, there's issue 1788
-// -- Karma 0.13.19 taking long time to complete when run via gulp
-// https://github.com/karma-runner/karma/issues/1788
-// We should switch back to Karma API when the issue is fixed
-//
-// var Server = require('karma').Server;
-//
-
-gulp.task('test:unit', function (cb) {
-  var handler = function (code) {
-    if (code) {
-      cb(new Error('test failure'));
-    } else {
-      cb();
-    }
-  };
-
-  //
-  // Don't use Karma API for now
-  //
-  // new Server({
-  //   configFile: path.join(__dirname, 'karma.conf.js'),
-  //   singleRun: true,
-  // }, handler).start();
-  //
-
+function testWithKarmaCmd(handler) {
   var karmaCmd = path.resolve('./node_modules/.bin/karma');
 
   if (process.platform === 'win32') {
@@ -91,6 +68,27 @@ gulp.task('test:unit', function (cb) {
     'start',
     '--single-run',
   ], { stdio: 'inherit' }).on('close', handler);
+}
+
+/*
+function testWithKarmaAPI(handler) {
+  var Server = require('karma').Server;
+  new Server({
+    configFile: path.join(__dirname, 'karma.conf.js'),
+    singleRun: true,
+  }, handler).start();
+}
+*/
+
+gulp.task('test:unit', function (cb) {
+  var handler = function (code) {
+    if (code) {
+      cb(new Error('test failure'));
+    } else {
+      cb();
+    }
+  };
+  testWithKarmaCmd(handler);
 });
 
 // coveralls
@@ -105,11 +103,16 @@ gulp.task('coveralls', ['test'], function () {
 // coveralls-end
 
 gulp.task('static', function () {
-  return gulp.src('**/*.js')
+  return gulp.src(['js/**/*.js', 'demos/**/*.js', 'spec/**/*.js'])
     .pipe(excludeGitignore())
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
+});
+
+gulp.task('docs', function (cb) {
+  gulp.src(['README.md', './src/**/*.js'], { read: false })
+    .pipe(jsdoc(require('./jsdoc.json'), cb));
 });
 
 gulp.task('webpack', webpackBuild('./webpack.config'));
@@ -143,7 +146,7 @@ gulp.task('test:demos', ['download-selenium'], function (done) {
   });
 });
 
-gulp.task('test', ['test:unit', 'test:demos']);
+gulp.task('test', ['test:unit']);
 
 gulp.task('prepublish', ['webpack']);
 
@@ -160,7 +163,6 @@ gulp.task('clean', ['clean:build', 'clean:test']);
 gulp.task('default', [
   'static',
   'webpack',
-  'examples',
 // coveralls
   'coveralls',
 // coveralls-end
