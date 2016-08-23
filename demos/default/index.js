@@ -34,6 +34,11 @@ const toolbar = new ToolbarView({
         id: 'menu-item-1st',
         onClick: () => console.log('click menu-item-1st'),
       }, {
+        type: 'dropdown-divider',
+      }, {
+        type: 'dropdown-header',
+        text: 'Hello world!',
+      }, {
         text: 'The 2nd MenuItem',
         id: 'menu-item-2nd',
         onClick: () => console.log('click menu-item-2nd'),

@@ -4,5 +4,4 @@ include ./button-mixin.jade
   +buttonMixin(button)
   ul.dropdown-menu(role='menu', aria-labeledby=button.id, class=classes, id=id)
     each item in menu.items
-      li(role='presentation')
-        != item.html
+      != item.html

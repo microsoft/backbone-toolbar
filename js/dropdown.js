@@ -29,7 +29,7 @@ export function renderDropdown(dropdown, renderItem) {
       items: _.map(menu.items, (item, index) => ({
         html: renderItem(_.defaults({
           tabindex: index === 0 ? 0 : -1,
-        }, item, { type: 'menu-item' }), events),
+        }, item, { type: 'dropdown-item' }), events),
       })),
     }, menu, {
       classes: [],
