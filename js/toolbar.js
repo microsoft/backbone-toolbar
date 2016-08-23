@@ -1,12 +1,8 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import toolbarTemplate from './toolbar.jade';
-import { buildButtonItem } from './button.js';
+import { getItemBuilder } from './item-register.js';
 import './toolbar.less';
-
-const builders = {
-  button: buildButtonItem,
-};
 
 function mergeEvents(dest, src) {
   const result = dest || {};
@@ -38,10 +34,6 @@ function normalizeItem(item) {
     const error = new Error('Invalid toolbar item');
     error.item = item;
     throw error;
-  } else if (!_.isFunction(builders[item.type])) {
-    const error = new Error('Unknown item type');
-    error.type = item.type;
-    throw error;
   }
 
   return item;
@@ -68,7 +60,7 @@ export class Toolbar extends Backbone.View {
 
   _buildItems() {
     return _.reduce(this._state.items, (memo, item, index) => {
-      const toolbarItemBuilder = builders[normalizeItem(item).type];
+      const toolbarItemBuilder = getItemBuilder(normalizeItem(item).type);
       const { events, html } = toolbarItemBuilder(_.defaults({
         tabindex: index === 0 ? 0 : -1,
       }, item));
@@ -97,5 +89,4 @@ export class Toolbar extends Backbone.View {
     return this;
   }
 }
-
 
