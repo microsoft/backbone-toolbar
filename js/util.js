@@ -22,3 +22,9 @@ export function parseSelector(selector) {
   return result;
 }
 
+export function sequence(funcs) {
+  return function (...args) {
+    _.each(funcs, func => func.apply(this, args));
+  };
+}
+

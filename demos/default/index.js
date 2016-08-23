@@ -1,7 +1,7 @@
 import { ToolbarView } from '../../js';
 import 'bootstrap-webpack';
 
-const toolbar = new ToolbarView({
+window.toolbar = new ToolbarView({
   el: '.toolbar-container',
 }).set({
   id: 'demo-toolbar',
