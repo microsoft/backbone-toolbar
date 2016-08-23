@@ -11,13 +11,14 @@ function normalizeItem(item) {
 
 export function renderToolbar(toolbar, renderItem) {
   const events = {};
-  const items = _.map(toolbar.items, (item, index) => ({
-    html: renderItem(_.defaults({
-      tabindex: index === 0 ? 0 : -1,
-    }, normalizeItem(item)), events),
-  }));
 
-  const options = _.defaults({ items }, toolbar, {
+  const options = _.defaults({
+    items: _.map(toolbar.items, (item, index) => ({
+      html: renderItem(_.defaults({
+        tabindex: index === 0 ? 0 : -1,
+      }, normalizeItem(item)), events),
+    })),
+  }, toolbar, {
     classes: [],
     id: _.uniqueId('toolbar-'),
   });

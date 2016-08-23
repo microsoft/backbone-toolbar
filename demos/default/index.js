@@ -23,5 +23,22 @@ const toolbar = new ToolbarView({
     iconRight: 'glyphicon-th-list',
     id: 'button-3rd',
     onClick: () => console.log('click button-3rd'),
+  }, {
+    type: 'dropdown',
+    button: {
+      text: 'Dropdown',
+    },
+    menu: {
+      items: [{
+        text: 'The 1st MenuItem',
+        id: 'menu-item-1st',
+        onClick: () => console.log('click menu-item-1st'),
+      }, {
+        text: 'The 2nd MenuItem',
+        id: 'menu-item-2nd',
+        onClick: () => console.log('click menu-item-2nd'),
+      }],
+    },
   }],
 }).render();
+

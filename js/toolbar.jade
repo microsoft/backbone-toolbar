@@ -1,3 +1,4 @@
-.grid-toolbar(class=classes, id=id)
+.toolbar(class=classes, id=id)
   each item in items
-    != item.html
+    .toolbar-item
+      != item.html

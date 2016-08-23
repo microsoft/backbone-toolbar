@@ -1,7 +1,17 @@
-span.icon-left + span.text {
-  margin-left: 5px;
-}
+.toolbar {
+  .toolbar-item {
+    display: inline-block;
+  }
 
-span.text + span.icon-right {
-  margin-left: 5px;
+  .toolbar-item + .toolbar-item {
+    margin-left: 5px;
+  }
+
+  span.icon-left + span.text {
+    margin-left: 3px;
+  }
+
+  span.text + span.icon-right {
+    margin-left: 3px;
+  }
 }
