@@ -1,18 +1,50 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import toolbarTemplate from './toolbar.jade';
-import { buildButtonViewModel } from './button.js';
+import { buildButtonItem } from './button.js';
+import './toolbar.less';
 
 const builders = {
-  button: buildButtonViewModel,
+  button: buildButtonItem,
 };
 
-function convertToViewModel({ items, events }) {
-  const viewModel = _.reduce(items, (memo, item) => {
-    const builder = builders[item.type] || _.identity;
-    return builder(memo, item);
-  }, { items: [], events });
-  return viewModel;
+function mergeEvents(dest, src) {
+  const result = dest || {};
+
+  _.each(src, (handler, key) => {
+    const handlerCur = result[key];
+    if (_.isFunction(handlerCur)) {
+      result[key] = function (...args) {
+        handlerCur.apply(this, args);
+        handler.apply(this, args);
+      };
+    } else {
+      result[key] = handler;
+    }
+  });
+
+  return result;
+}
+
+function normalizeItem(item) {
+  if (_.isString(item)) {
+    const { classes, id } = parseSelector(item);
+    return {
+      type: 'stub',
+      classes,
+      id,
+    };
+  } else if (!_.has(item, 'type')) {
+    const error = new Error('Invalid toolbar item');
+    error.item = item;
+    throw error;
+  } else if (!_.isFunction(builders[item.type])) {
+    const error = new Error('Unknown item type');
+    error.type = item.type;
+    throw error;
+  }
+
+  return item;
 }
 
 export class Toolbar extends Backbone.View {
@@ -35,6 +67,19 @@ export class Toolbar extends Backbone.View {
   }
 
   _buildItems() {
+    return _.reduce(this._state.items, (memo, item, index) => {
+      const toolbarItemBuilder = builders[normalizeItem(item).type];
+      const { events, html } = toolbarItemBuilder(_.defaults({
+        tabindex: index === 0 ? 0 : -1,
+      }, item));
+
+      memo.items.push({ html });
+      memo.events = mergeEvents(memo.events, events);
+      return memo;
+    }, {
+      items: [],
+      events: this._state.events,
+    });
   }
 
   _redraw() {

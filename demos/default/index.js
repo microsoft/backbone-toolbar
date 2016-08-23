@@ -7,8 +7,20 @@ const toolbar = new Toolbar({
   items: [{
     type: 'button',
     classes: ['btn', 'btn-primary'],
-    title: 'A button',
-    name: 'first-button',
-    onClick: () => console.log('click first-button'),
+    id: 'button-1st',
+    text: 'A button',
+    onClick: () => console.log('click button-1st'),
+  }, {
+    type: 'button',
+    iconLeft: 'glyphicon-th-large',
+    text: 'The 2nd Button',
+    id: 'button-2nd',
+    onClick: () => console.log('click button-2nd'),
+  }, {
+    type: 'button',
+    text: 'The 3rd Button',
+    iconRight: 'glyphicon-th-list',
+    id: 'button-3rd',
+    onClick: () => console.log('click button-3rd'),
   }],
 }).render();
