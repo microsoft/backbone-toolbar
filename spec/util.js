@@ -10,4 +10,20 @@ describe('parseSelector', function () {
 
     expect(parseSelector(selector)).to.deep.equal({ classes });
   });
+
+  it('should parse id correctly', function () {
+    const selector = '#foo#foo-bar';
+    const id = 'foo';
+
+    expect(parseSelector(selector)).to.deep.equal({ classes: [], id });
+  });
+
+  it('shoul parse mixed selector correctly', function () {
+    const selector = '.foo#bar.foo-bar';
+    const classes = ['foo', 'foo-bar'];
+    const id = 'bar';
+
+    expect(parseSelector(selector)).to.deep.equal({ classes, id });
+  });
 });
+

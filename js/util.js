@@ -14,5 +14,11 @@ export function parseSelector(selector) {
     }
   }
 
-  return { classes, id: _.first(ids) };
+  const result = { classes };
+  if (!_.isEmpty(ids)) {
+    result.id = _.first(ids);
+  }
+
+  return result;
 }
+
