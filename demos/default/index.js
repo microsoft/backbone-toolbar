@@ -3,7 +3,6 @@ import 'bootstrap-webpack';
 
 window.toolbar = new ToolbarView({
   el: '.toolbar-container',
-}).set({
   id: 'demo-toolbar',
   items: [{
     type: 'button',
@@ -30,18 +29,18 @@ window.toolbar = new ToolbarView({
     },
     menu: {
       items: [{
-        text: 'The 1st MenuItem',
-        id: 'menu-item-1st',
-        onClick: () => console.log('click menu-item-1st'),
+        text: 'The 1st DropdownItem',
+        id: 'dropdown-item-1st',
+        onClick: () => console.log('click dropdown-item-1st'),
       }, {
         type: 'dropdown-divider',
       }, {
         type: 'dropdown-header',
         text: 'Hello world!',
       }, {
-        text: 'The 2nd MenuItem',
-        id: 'menu-item-2nd',
-        onClick: () => console.log('click menu-item-2nd'),
+        text: 'The 2nd DropdownItem',
+        id: 'dropdown-item-2nd',
+        onClick: () => console.log('click dropdown-item-2nd'),
       }],
     },
   }],

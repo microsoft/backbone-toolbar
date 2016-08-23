@@ -23,7 +23,7 @@ function getItemContext(item) {
   return { id, item, renderer, children: [] };
 }
 
-function renderItemTree(item) {
+function renderItemTree(root) {
   const contexts = {};
   const stack = [];
 
@@ -36,31 +36,31 @@ function renderItemTree(item) {
       _.last(stack).children.push(id);
     }
     stack.push(context);
-    const {
-      events = {},
-      html = '',
-    } = renderer(_.defaults({ id }, item), renderItem);
+    _.extend(context, renderer(_.defaults({ id }, item), renderItem));
     stack.pop();
 
-    context.events = events;
-    return html;
+    return context.html;
   };
 
-  const html = renderItem(item);
-  return { html, contexts };
+  renderItem(root);
+
+  return contexts;
 }
 
 export class ToolbarView extends Backbone.View {
-  initialize() {
-    this._props = { type: 'toolbar' };
-    this._state = defaultState();
-    this._context = {};
+  initialize({
+    id = _.uniqueId('toolbar-'),
+    classes = [],
+    items = [],
+    events = {},
+  }) {
+    this._root = { type: 'toolbar', id, classes, items };
+    this._events = events;
+    this._contexts = renderItemTree(this._root);
   }
 
-  set(state) {
-    this._state = _.extend(defaultState(), state);
-    this._redraw();
-    return this;
+  get id() {
+    return this._root.id;
   }
 
   events() {
@@ -73,30 +73,56 @@ export class ToolbarView extends Backbone.View {
         handlerHash[key].push(handler);
       });
     };
-    mergeEvents(_.result(this._state, 'events', {}));
+    mergeEvents(this._events || {});
     _.each(this._contexts || {}, context => mergeEvents(context.events));
 
     return _.mapObject(handlerHash, sequence);
   }
 
-  _redraw() {
-    if (this._isRendered) {
-      const {
-        contexts = {},
-        html = '',
-      } = renderItemTree(_.defaults({}, this._props, this._state));
+  _removeContext(id) {
+    _.each(this._contexts[id].children, this._removeContext, this);
+    delete this._contexts[id];
+  }
 
-      this._contexts = contexts;
+  get(id) {
+    return _.chain(this._contexts).result(id).result('item').value();
+  }
 
-      this.undelegateEvents();
-      this.$el.html(html);
-      this.delegateEvents(this.events());
+  update(item) {
+    const id = item.id || this.id;
+    const itemNew = _.defaults({ id }, item, this.get(id));
+
+    if (id === this.id) {
+      if (!itemNew.type !== 'toolbar') {
+        throw new Error('The root item must be a toolbar');
+      }
+      this._root = itemNew;
+    }
+
+    if (_.has(this._contexts, id)) {
+      const contexts = renderItemTree(itemNew);
+      this._removeContext(id);
+      _.each(contexts, (context, id) => {
+        if (_.has(this._contexts, id)) {
+          throw new Error('duplicated item id');
+        }
+        this._contexts[id] = context;
+      });
+      if (this._isRendered) {
+        this.undelegateEvents();
+        this.$(`#${id}`).replaceWith(contexts[id].html);
+        this.delegateEvents();
+      }
+    } else {
+      console.warn(`Trying to update invalid item with id '${id}'`);
     }
   }
 
   render() {
     this._isRendered = true;
-    this._redraw();
+    this.undelegateEvents();
+    this.$el.html(this._contexts[this.id].html);
+    this.delegateEvents();
     return this;
   }
 }
