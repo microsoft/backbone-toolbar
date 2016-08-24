@@ -5,14 +5,14 @@ li.dropdown-radio-group(class=classes, id=id)
       li.dropdown-radio-item(role='presentation', data-value=item.value)
         a(role='menuitem')
           if item.value === value
-            span.glyphicon.glyphicon-ok.selection.selection-selected
+            span.selection.selection-selected(class=checkIcon)
           else
-            span.glyphicon.glyphicon-ok.selection
+            span.selection(class=checkIcon)
           span.text=item.text
           if !item.locked
             span.remove
               if removeText
                 span.pull-right.remove-text=removeText
               if removeIcon
-                span.pull-right.glyphicon.remove-icon(class=removeIcon)
+                span.pull-right.remove-icon(class=removeIcon)
 

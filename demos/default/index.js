@@ -12,14 +12,14 @@ window.toolbar = new ToolbarView({
     onClick: () => console.log('click button-1st'),
   }, {
     type: 'button',
-    iconLeft: 'glyphicon-th-large',
+    iconLeft: ['glyphicon', 'glyphicon-th-large'],
     text: 'The 2nd Button',
     id: 'button-2nd',
     onClick: () => console.log('click button-2nd'),
   }, {
     type: 'button',
     text: 'The 3rd Button',
-    iconRight: 'glyphicon-th-list',
+    iconRight: ['glyphicon', 'glyphicon-th-list'],
     id: 'button-3rd',
     onClick: () => console.log('click button-3rd'),
   }, {

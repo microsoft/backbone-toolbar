@@ -23,7 +23,7 @@ export function renderDropdown(dropdown, renderItem) {
       id: _.uniqueId('dropdown-button-'),
       text: '',
       iconLeft: null,
-      iconRight: 'glyphicon-triangle-bottom',
+      iconRight: ['glyphicon', 'glyphicon-triangle-bottom'],
     }),
     menu: _.defaults({
       items: _.map(menu.items, (item, index) => ({

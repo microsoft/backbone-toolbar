@@ -8,12 +8,13 @@ function normalizeItem(item) {
     classes: [],
     title: '',
     items: [],
+    checkIcon: ['glyphicon', 'glyphicon-ok'],
     removeText: null,
     removeIcon: null,
   }, item);
 
   if (!dropdownRadioGroup.removeIcon && !dropdownRadioGroup.removeText) {
-    dropdownRadioGroup.removeIcon = 'glyphicon-remove';
+    dropdownRadioGroup.removeIcon = ['glyphicon', 'glyphicon-remove'];
   }
 
   return dropdownRadioGroup;
