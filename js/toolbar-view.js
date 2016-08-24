@@ -59,10 +59,6 @@ export class ToolbarView extends Backbone.View {
     this._contexts = renderItemTree(this._root);
   }
 
-  get id() {
-    return this._root.id;
-  }
-
   events() {
     const handlerHash = {};
     const mergeEvents = events => {
@@ -89,10 +85,10 @@ export class ToolbarView extends Backbone.View {
   }
 
   update(item) {
-    const id = item.id || this.id;
+    const id = item.id || this._root.id;
     const itemNew = _.defaults({ id }, item, this.get(id));
 
-    if (id === this.id) {
+    if (id === this._root.id) {
       if (!itemNew.type !== 'toolbar') {
         throw new Error('The root item must be a toolbar');
       }
@@ -121,7 +117,7 @@ export class ToolbarView extends Backbone.View {
   render() {
     this._isRendered = true;
     this.undelegateEvents();
-    this.$el.html(this._contexts[this.id].html);
+    this.$el.html(this._contexts[this._root.id].html);
     this.delegateEvents();
     return this;
   }
