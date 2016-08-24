@@ -49,12 +49,12 @@ function renderItemTree(root) {
 
 export class ToolbarView extends Backbone.View {
   initialize({
-    id = _.uniqueId('toolbar-'),
+    toolbarId = _.uniqueId('toolbar-'),
     classes = [],
     items = [],
     events = {},
   }) {
-    this._root = { type: 'toolbar', id, classes, items };
+    this._root = { type: 'toolbar', id: toolbarId, classes, items };
     this._events = events;
     this._contexts = renderItemTree(this._root);
   }

@@ -3,7 +3,7 @@ import 'bootstrap-webpack';
 
 window.toolbar = new ToolbarView({
   el: '.toolbar-container',
-  id: 'demo-toolbar',
+  toolbarId: 'demo-toolbar',
   items: [{
     type: 'button',
     classes: ['btn', 'btn-primary'],
