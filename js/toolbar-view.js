@@ -127,4 +127,3 @@ export class ToolbarView extends Backbone.View {
   }
 }
 
-

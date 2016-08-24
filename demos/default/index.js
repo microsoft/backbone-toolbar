@@ -41,6 +41,18 @@ window.toolbar = new ToolbarView({
         text: 'The 2nd DropdownItem',
         id: 'dropdown-item-2nd',
         onClick: () => console.log('click dropdown-item-2nd'),
+      }, {
+        type: 'dropdown-divider',
+      }, {
+        type: 'dropdown-radio-group',
+        id: 'dropdown-radio-group-1st',
+        onSelect: value => console.log(`select ${value}`),
+        onRemove: value => console.log(`remove ${value}`),
+        title: 'A simple radio group',
+        items: [
+          { text: 'foo', value: 'foo' },
+          { text: 'bar', value: 'bar' },
+        ],
       }],
     },
   }],
