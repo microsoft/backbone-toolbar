@@ -1,7 +1,85 @@
 {
-  "testSuites": {
-    "unit": {
-      "cwd": "."
-    }
+  "main": "dist/backbone-toolbar.js",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "gulp test coveralls",
+    "prepublish": "gulp prepublish"
+  },
+  "license": "MIT",
+  "name": "backbone-toolbar",
+  "description": "A Backbone based toolbar implementation.",
+  "keywords": [],
+  "author": {
+    "name": "Wei Wei",
+    "email": "lyweiwei@outlook.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/backbone-toolbar.git"
+  },
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-stage-3": "^6.11.0",
+    "backbone": "^1.3.3",
+    "bootstrap": "^3.3.7",
+    "bootstrap-webpack": "0.0.5",
+    "chai": "^3.5.0",
+    "css-loader": "^0.23.1",
+    "del": "^2.2.2",
+    "democase": "^0.1.9",
+    "eslint": "^3.3.1",
+    "eslint-config-xo": "^0.15.3",
+    "eslint-config-xo-space": "^0.14.0",
+    "exports-loader": "^0.6.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
+    "gulp-democase": "0.0.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-file": "^0.3.0",
+    "gulp-jsdoc3": "^0.3.0",
+    "gulp-util": "^3.0.7",
+    "imports-loader": "^0.6.5",
+    "isparta-loader": "^2.0.0",
+    "istanbul-instrumenter-loader": "^0.2.0",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.8.0",
+    "jquery": "^2.2.4",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.1.1",
+    "karma-mocha-reporter": "^2.1.0",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.8.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "lodash": "^4.15.0",
+    "mocha": "^3.0.2",
+    "phantomjs-prebuilt": "^2.1.12",
+    "requirejs": "^2.2.0",
+    "source-map-loader": "^0.1.5",
+    "style-loader": "^0.13.1",
+    "underscore": "^1.8.3",
+    "url-loader": "^0.5.7",
+    "wdio-junit-reporter": "^0.1.0",
+    "wdio-mocha-framework": "^0.4.0",
+    "webdriverio": "^4.2.7",
+    "webpack": "^1.13.2",
+    "webpack-stream": "^3.2.0"
+  },
+  "peerDependencies": {
+    "backbone": "^1.3.3",
+    "jquery": "^2.2.4",
+    "underscore": "^1.8.3"
   }
 }

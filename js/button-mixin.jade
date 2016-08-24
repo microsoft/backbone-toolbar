@@ -1,0 +1,8 @@
+mixin buttonMixin(options)
+  button&attributes(options.attributes)(class=options.classes, id=options.id, type='button', role='button', tabindex=options.tabindex)
+    if options.iconLeft
+      span.icon-left.glyphicon(class=options.iconLeft)
+    span.text=options.text
+    if options.iconRight
+      span.icon-right.glyphicon(class=options.iconRight)
+

@@ -1,0 +1,14 @@
+include ./button-mixin.jade
+
+-
+  var options = {
+    classes: classes,
+    attributes: {},
+    id: id,
+    tabindex: tabindex,
+    iconLeft: iconLeft,
+    text: text,
+    iconRight: iconRight,
+  };
+
++buttonMixin(options)
