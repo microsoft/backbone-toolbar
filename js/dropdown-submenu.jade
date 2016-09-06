@@ -1,0 +1,7 @@
+include ./menu-button-mixin.jade
+include ./menu-mixin.jade
+
+li.dropdown-submenu(role='presentation', class=classes, id=id)
+  +menuButtonMixin(button)
+  +menuMixin(id, menu)
+
