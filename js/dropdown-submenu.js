@@ -19,7 +19,7 @@ export function renderDropdownSubmenu(dropdownSubmenu, renderItem) {
       id: _.uniqueId('dropdown-submenu-button-'),
       text: '',
       iconLeft: null,
-      iconRight: ['glyphicon', 'glyphicon-triangle-right'],
+      iconRight: ['glyphicon', 'glyphicon-triangle-right', 'pull-right'],
     }),
     menu: _.defaults({
       items: _.map(menu.items, (item, index) => ({
