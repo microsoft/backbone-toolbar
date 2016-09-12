@@ -18,9 +18,10 @@ window.toolbar = new ToolbarView({
     onClick: () => console.log('click button-2nd'),
   }, {
     type: 'button',
-    text: 'The 3rd Button',
+    text: 'The 3rd Button (disabled)',
     iconRight: ['glyphicon', 'glyphicon-th-list'],
     id: 'button-3rd',
+    disabled: true,
     onClick: () => console.log('click button-3rd'),
   }, {
     type: 'dropdown',
@@ -54,6 +55,12 @@ window.toolbar = new ToolbarView({
           { text: 'bar', value: 'bar' },
         ],
       }],
+    },
+  }, {
+    type: 'dropdown',
+    button: {
+      text: 'The 2nd Dropdown (disabled)',
+      disabled: true,
     },
   }],
 }).render();

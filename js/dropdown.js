@@ -21,6 +21,7 @@ export function renderDropdown(dropdown, renderItem) {
       ]),
     }, button, {
       id: _.uniqueId('dropdown-button-'),
+      disabled: false,
       text: '',
       iconLeft: null,
       iconRight: ['glyphicon', 'glyphicon-triangle-bottom'],

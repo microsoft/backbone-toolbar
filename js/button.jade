@@ -3,8 +3,9 @@ include ./button-mixin.jade
 -
   var options = {
     classes: classes,
-    attributes: {},
     id: id,
+    attributes: attributes || {},
+    disabled: disabled,
     tabindex: tabindex,
     iconLeft: iconLeft,
     text: text,
