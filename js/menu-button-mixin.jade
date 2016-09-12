@@ -1,0 +1,8 @@
+mixin menuButtonMixin(options)
+  a(role='menuitem', class=options.classes, id=options.id)
+    if options.iconLeft
+      span.icon-left(class=options.iconLeft)
+    span.text=options.text
+    if options.iconRight
+      span.icon-right(class=options.iconRight)
+

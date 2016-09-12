@@ -45,6 +45,19 @@ window.toolbar = new ToolbarView({
       }, {
         type: 'dropdown-divider',
       }, {
+        type: 'dropdown-submenu',
+        button: {
+          text: 'A submenu',
+        },
+        menu: {
+          items: [{
+            text: 'Submenu item 1',
+            onClick: () => console.log('click submenu item 1'),
+          }],
+        },
+      }, {
+        type: 'dropdown-divider',
+      }, {
         type: 'dropdown-radio-group',
         id: 'dropdown-radio-group-1st',
         onSelect: value => console.log(`select ${value}`),

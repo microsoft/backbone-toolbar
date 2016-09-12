@@ -1,0 +1,5 @@
+mixin menuMixin(labeledby, options)
+  ul.dropdown-menu(role='menu', aria-labeledby=labeledby, class=options.classes, id=options.id)
+    each item in options.items
+      != item.html
+
