@@ -20,7 +20,7 @@ function normalizeItem(item) {
   return dropdownRadioGroup;
 }
 
-export function renderDropdownRadioGroup(item, renderItem) {
+export function renderDropdownRadioGroup(item) {
   const dropdownRadioGroup = normalizeItem(item);
   const html = dropdownRadioGroupTemplate(dropdownRadioGroup);
   const {

@@ -4,7 +4,7 @@ import buttonTemplate from './button.jade';
 export function renderButton(button) {
   const options = _.defaults({}, button, {
     classes: ['btn', 'btn-default'],
-    id:  _.uniqueId('button-'),
+    id: _.uniqueId('button-'),
     attributes: {},
     disabled: false,
     text: '',

@@ -1,6 +1,6 @@
 include ./button-mixin.jade
 include ./menu-mixin.jade
 
-.dropdown(class=classes, id=id)
+.dropdown&attributes(attributes)(class=classes, id=id)
   +buttonMixin(button)
   +menuMixin(button.id, menu)

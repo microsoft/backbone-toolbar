@@ -4,7 +4,7 @@ import dropdownItemTemplate from './dropdown-item.jade';
 export function renderDropdownItem(dropdownItem) {
   const options = _.extend({
     classes: [],
-    id:  _.uniqueId('dropdown-item-'),
+    id: _.uniqueId('dropdown-item-'),
     text: '',
     iconLeft: null,
     iconRight: null,

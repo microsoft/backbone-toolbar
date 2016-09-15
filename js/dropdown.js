@@ -39,6 +39,7 @@ export function renderDropdown(dropdown, renderItem) {
   }, dropdown, {
     classes: [],
     id: _.uniqueId('dropdown-'),
+    attributes: {},
   });
   const html = dropdownTemplate(options);
 

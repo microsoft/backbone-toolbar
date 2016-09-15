@@ -4,14 +4,6 @@ import { sequence } from './util.js';
 import { getRenderer } from './item-register.js';
 import './toolbar.less';
 
-function defaultState() {
-  return {
-    items: [],
-    classes: [],
-    events: {},
-  };
-}
-
 function getItemContext(item) {
   if (!_.isString(item.type)) {
     throw new Error('Invalie item');
@@ -92,7 +84,7 @@ export class ToolbarView extends Backbone.View {
   }
 
   set(id, options) {
-    const item = _.isFunction(options) ? options(this.get(id)) : item;
+    const item = _.isFunction(options) ? options(this.get(id)) : options;
 
     this.update(_.defaults({
       id: id || this.rootId,
