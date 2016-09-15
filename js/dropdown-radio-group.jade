@@ -3,7 +3,7 @@ li.dropdown-radio-group(class=classes, id=id)
     li.dropdown-header(role='presentation')=title
     each item in items
       li.dropdown-radio-item(role='presentation', data-value=item.value)
-        a(role='menuitem')
+        span(role='menuitem')
           if item.value === value
             span.selection.selection-selected(class=checkIcon)
           else
@@ -12,7 +12,7 @@ li.dropdown-radio-group(class=classes, id=id)
           if !item.locked
             span.remove
               if removeText
-                span.pull-right.remove-text=removeText
+                a.pull-right.remove-text=removeText
               if removeIcon
                 span.pull-right.remove-icon(class=removeIcon)
 
