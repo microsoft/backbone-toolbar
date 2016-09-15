@@ -80,16 +80,31 @@ export class ToolbarView extends Backbone.View {
     delete this._contexts[id];
   }
 
+  get rootId() {
+    return this._root.id;
+  }
+
   get(id) {
-    return _.chain(this._contexts).result(id).result('item').value();
+    return _.chain(this._contexts)
+      .result(id || this.rootId)
+      .result('item')
+      .value();
+  }
+
+  set(id, options) {
+    const item = _.isFunction(options) ? options(this.get(id)) : item;
+
+    this.update(_.defaults({
+      id: id || this.rootId,
+    }, item));
   }
 
   update(item) {
-    const id = item.id || this._root.id;
+    const id = item.id || this.rootId;
     const itemNew = _.defaults({ id }, item, this.get(id));
 
-    if (id === this._root.id) {
-      if (!itemNew.type !== 'toolbar') {
+    if (id === this.rootId) {
+      if (itemNew.type !== 'toolbar') {
         throw new Error('The root item must be a toolbar');
       }
       this._root = itemNew;
@@ -117,7 +132,7 @@ export class ToolbarView extends Backbone.View {
   render() {
     this._isRendered = true;
     this.undelegateEvents();
-    this.$el.html(this._contexts[this._root.id].html);
+    this.$el.html(this._contexts[this.rootId].html);
     this.delegateEvents();
     return this;
   }
