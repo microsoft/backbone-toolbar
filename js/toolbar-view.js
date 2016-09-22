@@ -4,14 +4,6 @@ import { sequence } from './util.js';
 import { getRenderer } from './item-register.js';
 import './toolbar.less';
 
-function defaultState() {
-  return {
-    items: [],
-    classes: [],
-    events: {},
-  };
-}
-
 function getItemContext(item) {
   if (!_.isString(item.type)) {
     throw new Error('Invalie item');
@@ -51,11 +43,12 @@ function renderItemTree(root) {
  * The Backbone View of configurable toolbar
  * @class ToolbarView
  *
- * @param {string} [toolbarId]
+ * @param {Object} options
+ * @param {string} [options.toolbarId]
  *    The id of the toolbar.
- * @param {string[]} [classes=[]]
+ * @param {string[]} [options.classes=[]]
  *    The classes of the toolbar.
- * @param {ToolbarItemConfig[]} [items=[]]
+ * @param {ToolbarItemConfig[]} [options.items=[]]
  *    The list of the toolbar items.
  */
 export class ToolbarView extends Backbone.View {
@@ -94,12 +87,43 @@ export class ToolbarView extends Backbone.View {
   }
 
   /**
+   * The ID of the root toolbar item.
+   * @type {string}
+   */
+  get rootId() {
+    return this._root.id;
+  }
+
+  /**
    * Get the configuration of a toolbar item.
    * @param {string} id - The ID of the item.
    * @return {ToolbarItemConfig}
    */
   get(id) {
-    return _.chain(this._contexts).result(id).result('item').value();
+    return _.chain(this._contexts)
+      .result(id || this.rootId)
+      .result('item')
+      .value();
+  }
+
+  /**
+   * Set the configuration of a toolbar item.
+   * @param {string} id
+   *    The ID of the item.
+   * @param {(ToolbarItemConfig|ToolbarSetCallback)} options
+   *    Describe the new configuration of the toolbar item.
+   */
+  set(id, options) {
+    /**
+     * @callback ToolbarSetCallback
+     * @param {ToolbarItemConfig} config - The current configuration.
+     * @return {ToolbarItemConfig} - The new configuration.
+     */
+    const item = _.isFunction(options) ? options(this.get(id)) : options;
+
+    this.update(_.defaults({
+      id: id || this.rootId,
+    }, item));
   }
 
   /**
@@ -107,11 +131,11 @@ export class ToolbarView extends Backbone.View {
    * @param {ToolbarItemConfig} item - The updated toolbar item configuration.
    */
   update(item) {
-    const id = item.id || this._root.id;
+    const id = item.id || this.rootId;
     const itemNew = _.defaults({ id }, item, this.get(id));
 
-    if (id === this._root.id) {
-      if (!itemNew.type !== 'toolbar') {
+    if (id === this.rootId) {
+      if (itemNew.type !== 'toolbar') {
         throw new Error('The root item must be a toolbar');
       }
       this._root = itemNew;
@@ -142,7 +166,7 @@ export class ToolbarView extends Backbone.View {
   render() {
     this._isRendered = true;
     this.undelegateEvents();
-    this.$el.html(this._contexts[this._root.id].html);
+    this.$el.html(this._contexts[this.rootId].html);
     this.delegateEvents();
     return this;
   }

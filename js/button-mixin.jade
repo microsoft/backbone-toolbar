@@ -1,5 +1,5 @@
 mixin buttonMixin(options)
-  button&attributes(options.attributes)(class=options.classes, id=options.id, type='button', role='button', tabindex=options.tabindex)
+  button&attributes(options.attributes)(class=options.classes, id=options.id, type='button', role='button', tabindex=options.tabindex, disabled=options.disabled)
     if options.iconLeft
       span.icon-left(class=options.iconLeft)
     span.text=options.text

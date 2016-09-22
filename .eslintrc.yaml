@@ -12,3 +12,4 @@
     - 2
     - "always"
   "linebreak-style": 0
+  "no-duplicate-imports": 0

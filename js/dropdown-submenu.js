@@ -36,26 +36,14 @@ export function renderDropdownSubmenu(dropdownSubmenu, renderItem) {
   }, dropdownSubmenu);
 
   const html = dropdownSubmenuTemplate(options);
+  const selector = `li#${options.id}`;
 
-  events[`click #${options.button.id}`] = function (e) {
-    const $menu = this.$(`#${options.menu.id}`);
-    const hideMenu = () => {
-      $menu.hide();
-      $(document).off('click', hideMenu);
-    };
-    const showMenu = () => {
-      $menu.show();
-      $(document).on('click', hideMenu);
-    };
+  events[`mouseover ${selector}`] = function () {
+    this.$(`#${options.menu.id}`).show();
+  };
 
-    if ($menu.is(':visible')) {
-      hideMenu();
-    } else {
-      showMenu();
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
+  events[`mouseover ul:has(> ${selector}) > li:not(${selector})`] = function (e) {
+    this.$(`#${options.menu.id}`).hide();
   };
 
   return { html, events };
