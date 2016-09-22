@@ -47,6 +47,17 @@ function renderItemTree(root) {
   return contexts;
 }
 
+/**
+ * The Backbone View of configurable toolbar
+ * @class ToolbarView
+ *
+ * @param {string} [toolbarId]
+ *    The id of the toolbar.
+ * @param {string[]} [classes=[]]
+ *    The classes of the toolbar.
+ * @param {ToolbarItemConfig[]} [items=[]]
+ *    The list of the toolbar items.
+ */
 export class ToolbarView extends Backbone.View {
   initialize({
     toolbarId = _.uniqueId('toolbar-'),
@@ -55,10 +66,13 @@ export class ToolbarView extends Backbone.View {
     events = {},
   }) {
     this._root = { type: 'toolbar', id: toolbarId, classes, items };
-    this._events = events;
     this._contexts = renderItemTree(this._root);
   }
 
+  /**
+   * Get the Backbone View event hash.
+   * @return BackboneViewEventHash
+   */
   events() {
     const handlerHash = {};
     const mergeEvents = events => {
@@ -69,7 +83,6 @@ export class ToolbarView extends Backbone.View {
         handlerHash[key].push(handler);
       });
     };
-    mergeEvents(this._events || {});
     _.each(this._contexts || {}, context => mergeEvents(context.events));
 
     return _.mapObject(handlerHash, sequence);
@@ -80,10 +93,19 @@ export class ToolbarView extends Backbone.View {
     delete this._contexts[id];
   }
 
+  /**
+   * Get the configuration of a toolbar item.
+   * @param {string} id - The ID of the item.
+   * @return {ToolbarItemConfig}
+   */
   get(id) {
     return _.chain(this._contexts).result(id).result('item').value();
   }
 
+  /**
+   * Update a toolbar item.
+   * @param {ToolbarItemConfig} item - The updated toolbar item configuration.
+   */
   update(item) {
     const id = item.id || this._root.id;
     const itemNew = _.defaults({ id }, item, this.get(id));
@@ -114,6 +136,9 @@ export class ToolbarView extends Backbone.View {
     }
   }
 
+  /**
+   * Render the toolbar as a Backbone View.
+   */
   render() {
     this._isRendered = true;
     this.undelegateEvents();

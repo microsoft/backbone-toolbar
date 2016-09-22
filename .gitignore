@@ -17,3 +17,6 @@ examples/webpack/dist
 
 # npm config
 .npmrc
+
+# jsdocs
+docs
