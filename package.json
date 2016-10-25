@@ -21,10 +21,10 @@
     "url": "https://github.com/Microsoft/backbone-toolbar.git"
   },
   "devDependencies": {
-    "babel-core": "^6.13.2",
+    "babel-core": "^6.18.0",
     "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.13.2",
-    "babel-preset-stage-3": "^6.11.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-3": "^6.17.0",
     "backbone": "^1.3.3",
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
