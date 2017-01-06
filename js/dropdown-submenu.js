@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import _ from 'underscore';
 import dropdownSubmenuTemplate from './dropdown-submenu.jade';
 import './dropdown-submenu.less';
@@ -42,7 +41,7 @@ export function renderDropdownSubmenu(dropdownSubmenu, renderItem) {
     this.$(`#${options.menu.id}`).show();
   };
 
-  events[`mouseover ul:has(> ${selector}) > li:not(${selector})`] = function (e) {
+  events[`mouseover ul:has(> ${selector}) > li:not(${selector})`] = function () {
     this.$(`#${options.menu.id}`).hide();
   };
 
