@@ -43,6 +43,11 @@ window.toolbar = new ToolbarView({
         id: 'dropdown-item-2nd',
         onClick: () => console.log('click dropdown-item-2nd'),
       }, {
+        text: 'The 3rd DropdownItem',
+        id: 'dropdown-item-3rd',
+        disabled: true,
+        onClick: () => console.log('click dropdown-item-3rd'),
+      }, {
         type: 'dropdown-divider',
       }, {
         type: 'dropdown-submenu',
@@ -77,4 +82,3 @@ window.toolbar = new ToolbarView({
     },
   }],
 }).render();
-
