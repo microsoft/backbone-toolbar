@@ -56,7 +56,6 @@ export class ToolbarView extends Backbone.View {
     toolbarId = _.uniqueId('toolbar-'),
     classes = [],
     items = [],
-    events = {},
   }) {
     this._root = { type: 'toolbar', id: toolbarId, classes, items };
     this._contexts = renderItemTree(this._root);
@@ -171,4 +170,3 @@ export class ToolbarView extends Backbone.View {
     return this;
   }
 }
-
