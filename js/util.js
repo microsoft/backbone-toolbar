@@ -15,7 +15,7 @@ import _ from 'underscore';
 export function parseSelector(selector) {
   const classes = [];
   const ids = [];
-  const regex = /([#\.])([^#\.]+)/g;
+  const regex = /([#.])([^#.]+)/g;
   let match = null;
 
   while ((match = regex.exec(selector)) !== null) {
