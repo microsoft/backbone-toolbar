@@ -1,5 +1,5 @@
 mixin menuButtonMixin(options)
-  a(role='menuitem', class=options.classes, id=options.id)
+  a(role='menuitem', class=options.classes, id=options.id, href='javascript:void(0);')
     if options.iconLeft
       span.icon-left(class=options.iconLeft)
     span.text=options.text
